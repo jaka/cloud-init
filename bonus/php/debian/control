@@ -1,0 +1,23 @@
+Source: php5
+Section: php
+Priority: optional
+Maintainer: Debian PHP Maintainers <pkg-php-maint@lists.alioth.debian.org>
+Build-Depends: autoconf (>= 2.63),
+	       automake (>= 1.11),
+	       bison (>= 2.4),
+	       dpkg-dev (>= 1.17),
+	       libbz2-dev,
+	       libdb-dev,
+	       libonig-dev,
+	       libpcre3-dev (>= 8.10),
+	       libtool (>= 2.2),
+	       libxml2-dev,
+	       re2c,
+	       zlib1g-dev
+Standards-Version: 3.9.6
+Homepage: http://www.php.net/
+
+Package: php5
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: server-side, HTML-embedded scripting language

@@ -1,0 +1,38 @@
+#!/usr/bin/make -f
+
+VERSION := 5.6.25
+TARBALL = php-$(VERSION).tar.xz
+URL = http://si1.php.net/distributions/$(TARBALL)
+
+BUILD_OPTIONS := \
+		--build=x86_64-linux-gnu \
+		--host=x86_64-linux-gnu \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--datadir=/usr/share \
+		--with-config-file-path=/etc/php5/cgi \
+		--with-config-file-scan-dir=/etc/php5/cgi/conf.d \
+		--with-libdir=lib/x86_64-linux-gnu \
+		--disable-all \
+		--enable-cgi \
+		--with-mysqli
+
+%:
+	dh $@
+
+override_dh_auto_test:
+override_dh_installchangelogs:
+override_dh_installdocs:
+override_dh_installexamples:
+override_dh_installman:
+override_dh_usrlocal:
+
+override_dh_auto_clean:
+	[ ! -f Makefile ] || $(MAKE) clean
+
+override_dh_auto_configure:
+	./configure $(BUILD_OPTIONS)	
+
+override_dh_auto_install:
+	INSTALL_ROOT=$(CURDIR) $(MAKE) install
