@@ -1,0 +1,14 @@
+mysql:
+  image: jaka/mysql
+  environment:
+    MYSQL_USER: 'admin'
+    MYSQL_PASS: 'mypass'
+  ports:
+    - '3306:3306'
+
+web:
+  image: jaka/web
+  ports:
+    - '80:80'
+  links:
+    - mysql:mysql
