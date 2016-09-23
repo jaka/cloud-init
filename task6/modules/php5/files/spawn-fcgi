@@ -1,0 +1,8 @@
+FASTCGI_USER=www-data
+FASTCGI_GROUP=www-data
+ADDRESS=127.0.0.1
+PORT=9000
+PIDFILE=/var/run/php-fastcgi.pid
+CHILDREN=6
+PHP5=/usr/bin/php-cgi	
+
