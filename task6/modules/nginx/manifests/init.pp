@@ -58,17 +58,26 @@ class nginx {
         default yes;
         SI no;
     }",
-    mode    => "0644",
+    mode => "0644",
+    before => Exec["setup-geolock1"]
   }
 
   exec { "setup-geolock1":
     command => "/bin/sed -i '/http {/a\\\tinclude /etc/nginx/geo;' /etc/nginx/nginx.conf",
-    unless => "/bin/grep -q '/etc/nginx/geo' /etc/nginx/nginx.conf ; /usr/bin/test $? -eq 0"
+    unless => "/bin/grep -q '/etc/nginx/geo' /etc/nginx/nginx.conf ; /usr/bin/test $? -eq 0",
+    require => Package["nginx-common", "nginx-core"],
+    before => Exec["setup-geolock2"]
   }
 
   exec { "setup-geolock2":
     command => "/bin/sed -i '/^server {/a\\\tif (\$allowed_country = no) { return 403; }' /etc/nginx/sites-available/default",
-    unless => "/bin/grep -q 'allowed_country' /etc/nginx/sites-available/default ; /usr/bin/test $? -eq 0"
+    unless => "/bin/grep -q 'allowed_country' /etc/nginx/sites-available/default ; /usr/bin/test $? -eq 0",
+    require => Package["nginx-common", "nginx-core"],
+    notify => Service["nginx"]
+  }
+
+  service { "nginx":
+    ensure => "running"
   }
 
 }
