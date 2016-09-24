@@ -1,10 +1,11 @@
 exec { "apt-get update":
-  command => "/usr/bin/apt-get update"
+  command => "/usr/bin/apt-get update",
+  refreshonly => true
 }
 
 package { ["apt-transport-https", "ca-certificates"]:
   ensure  => "installed",
-  require => Exec["apt-get update"],
+  subscribe => Exec["apt-get update"],
 }
 
 exec { "apt-key":
